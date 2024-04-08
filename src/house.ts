@@ -56,6 +56,7 @@ const roof = new THREE.Mesh(
 
 roof.position.y = 3;
 roof.rotation.y = Math.PI / 4;
+
 house.add(roof);
 
 /**
@@ -126,6 +127,7 @@ bush3.position.set(-1, 0.2, 2.5);
 const bush4 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush4.scale.set(0.15, 0.15, 0.15);
 bush4.position.set(-1.2, 0.1, 2.9);
+
 house.add(bush1, bush2, bush3, bush4);
 
 /**
@@ -145,5 +147,26 @@ if (isDubugON) {
 }
 
 house.add(doorLight);
+
+/**
+ * SHADOWS
+ */
+
+// bushs
+bush1.castShadow = true;
+bush2.castShadow = true;
+bush3.castShadow = true;
+bush4.castShadow = true;
+
+// walls
+walls.castShadow = true;
+// roofs
+roof.castShadow = true;
+
+// door light
+doorLight.castShadow = true;
+doorLight.shadow.mapSize.width = 256;
+doorLight.shadow.mapSize.height = 256;
+doorLight.shadow.camera.far = 7;
 
 export default house;

@@ -43,13 +43,13 @@ controls.enableDamping = true;
 Resize_Manager(camera, renderer);
 
 /**
- * FLOOR
- */
-
-/**
  * TEXTURE LOADER
  */
 const textureLoader = new THREE.TextureLoader();
+
+/**
+ * FLOOR
+ */
 
 // TEXTURE
 const GrassColorTexture = textureLoader.load("textures/grass/color.jpg");
@@ -100,6 +100,15 @@ scene.add(floor);
  * HOUSE
  */
 scene.add(house);
+
+/**
+ * GHOST
+ */
+
+const ghost1 = new THREE.PointLight("#ff00ff", 2, 3);
+const ghost2 = new THREE.PointLight("#00ffff", 2, 3);
+const ghost3 = new THREE.PointLight("#ffff00", 2, 3);
+scene.add(ghost1, ghost2, ghost3);
 
 /**
  * GRAVE
@@ -160,12 +169,41 @@ if (isDubugON) {
 }
 
 /**
+ * SHADHOWS
+ */
+// light
+moonLight.castShadow = true;
+
+// ghost light
+ghost1.castShadow = true;
+ghost2.castShadow = true;
+ghost3.castShadow = true;
+
+// floor
+floor.receiveShadow = true;
+
+/**
  * Animate
  */
-// const clock = new THREE.Clock();
+const clock = new THREE.Clock();
 
 const animation = () => {
-    // const elapsedTime = clock.getElapsedTime();
+    const elapsedTime = clock.getElapsedTime();
+
+    // update ghosts
+    const ghostAngle = elapsedTime;
+
+    ghost1.position.x = Math.sin(ghostAngle) * 4;
+    ghost1.position.z = Math.cos(ghostAngle) * 4;
+    ghost1.position.y = Math.sin(elapsedTime * 3);
+
+    ghost2.position.x = -Math.sin(ghostAngle) * 5.3;
+    ghost2.position.z = Math.cos(ghostAngle) * 5.3;
+    ghost2.position.y = Math.sin(elapsedTime * 4) + Math.sin(elapsedTime * 3);
+
+    ghost3.position.x = Math.sin(ghostAngle) * 6;
+    ghost3.position.z = -Math.cos(ghostAngle) * 6;
+    ghost3.position.y = -Math.sin(elapsedTime * 2) + Math.sin(elapsedTime * 2);
 
     // Update controls
     controls.update();
