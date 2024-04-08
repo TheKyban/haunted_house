@@ -1,9 +1,10 @@
 import * as THREE from "three";
+import { loadingManager } from "./loadManager";
 
 /**
  * TEXTURE LOADER
  */
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 
 /**
  * FLOOR

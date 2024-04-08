@@ -2,11 +2,12 @@ import * as THREE from "three";
 import { gui, isDubugON } from "./debug";
 import { GUI } from "dat.gui";
 import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
+import { loadingManager } from "./loadManager";
 
 /**
  * TEXTURE LOADER
  */
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 
 /**
  * HOUSE

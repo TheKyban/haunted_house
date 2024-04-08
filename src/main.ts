@@ -108,15 +108,3 @@ const animation = () => {
 };
 
 animation();
-
-/**
- * LOADING
- */
-
-window.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-        (
-            document.querySelector("#loaderContainer") as HTMLDivElement
-        ).style.display = "none";
-    }, 2500);
-});
