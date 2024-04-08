@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { gui, isDubugON } from "./debug";
 import { GUI } from "dat.gui";
+import { FontLoader, TextGeometry } from "three/examples/jsm/Addons.js";
 
 /**
  * TEXTURE LOADER
@@ -107,9 +108,24 @@ house.add(door);
  * BUSHES
  */
 
+// TEXTURE
+const GrassColorTexture = textureLoader.load("textures/grass/color.jpg");
+const GrassNormalTexture = textureLoader.load("textures/grass/normal.jpg");
+const GrassRoughnessTexture = textureLoader.load(
+    "textures/grass/roughness.jpg"
+);
+const GrassAmbientOcclusionTexture = textureLoader.load(
+    "textures/grass/ambientOcclusion.jpg"
+);
+
 const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
 const bushMaterial = new THREE.MeshStandardMaterial({
     color: "#89c854",
+    normalMap: GrassNormalTexture,
+    roughnessMap: GrassRoughnessTexture,
+    aoMap: GrassAmbientOcclusionTexture,
+    map: GrassColorTexture,
+    transparent: true,
 });
 
 const bush1 = new THREE.Mesh(bushGeometry, bushMaterial);
@@ -127,6 +143,23 @@ bush3.position.set(-1, 0.2, 2.5);
 const bush4 = new THREE.Mesh(bushGeometry, bushMaterial);
 bush4.scale.set(0.15, 0.15, 0.15);
 bush4.position.set(-1.2, 0.1, 2.9);
+
+bush1.geometry.setAttribute(
+    "uv2",
+    new THREE.Float32BufferAttribute(bush1.geometry.attributes.uv.array, 2)
+);
+bush2.geometry.setAttribute(
+    "uv2",
+    new THREE.Float32BufferAttribute(bush2.geometry.attributes.uv.array, 2)
+);
+bush3.geometry.setAttribute(
+    "uv2",
+    new THREE.Float32BufferAttribute(bush3.geometry.attributes.uv.array, 2)
+);
+bush4.geometry.setAttribute(
+    "uv2",
+    new THREE.Float32BufferAttribute(bush4.geometry.attributes.uv.array, 2)
+);
 
 house.add(bush1, bush2, bush3, bush4);
 
@@ -165,8 +198,30 @@ roof.castShadow = true;
 
 // door light
 doorLight.castShadow = true;
+
 doorLight.shadow.mapSize.width = 256;
 doorLight.shadow.mapSize.height = 256;
 doorLight.shadow.camera.far = 7;
+
+/**
+ * TEXT
+ */
+
+const font = new FontLoader();
+font.load("fonts/helvetiker_regular.typeface.json", (font) => {
+    const textGeometry = new TextGeometry("Graveyard", {
+        font: font,
+        size: 0.2,
+        height: 0.07,
+    });
+    textGeometry.center();
+
+    const textMaterial = new THREE.MeshStandardMaterial({ color: "red" });
+
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    text.position.z = 2;
+    text.position.y = 2.1;
+    house.add(text);
+});
 
 export default house;
